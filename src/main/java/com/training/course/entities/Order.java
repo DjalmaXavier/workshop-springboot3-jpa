@@ -7,6 +7,8 @@ import java.util.Objects;
 import com.training.course.entities.enums.OrderStatus;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,7 +25,9 @@ public class Order implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Instant moment;
-	private Integer orderStatus;
+	
+	@Enumerated(EnumType.STRING)
+	private OrderStatus orderStatus;
 
 	@ManyToOne
 	@JoinColumn(name = "client_id")
@@ -36,7 +40,7 @@ public class Order implements Serializable {
 		this.id = id;
 		this.moment = moment;
 		this.client = client;
-		setOrderStatus(orderStatus);
+		this.orderStatus = orderStatus;
 	}
 
 	public Long getId() {
@@ -64,11 +68,11 @@ public class Order implements Serializable {
 	}
 
 	public OrderStatus getOrderStatus() {
-		return OrderStatus.valueOf(orderStatus);
+		return orderStatus;
 	}
 
 	public void setOrderStatus(OrderStatus orderStatus) {
-		if (orderStatus != null) this.orderStatus = orderStatus.getCode();
+		this.orderStatus = orderStatus;
 	}
 
 	@Override
