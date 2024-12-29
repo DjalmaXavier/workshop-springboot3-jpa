@@ -2,6 +2,8 @@ package com.training.course.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.training.course.entities.enums.OrderStatus;
@@ -13,8 +15,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "tb_order")
@@ -32,6 +36,10 @@ public class Order implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private User client;
+	
+	
+	@Transient
+	private List<Product> items = new ArrayList<>();
 
 	public Order() {
 	}
