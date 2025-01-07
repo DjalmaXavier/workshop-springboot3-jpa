@@ -19,6 +19,7 @@ public class OrderItem implements Serializable {
 	@EmbeddedId
 	private OrderItemPK id = new OrderItemPK();
 
+	// Como possui quantity e price, é necessário criar uma entidade separada para a relação Many to Many
 	private Integer quantity;
 	private Double price;
 
