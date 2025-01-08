@@ -13,6 +13,8 @@ import com.training.course.repositories.UserRepository;
 import com.training.course.services.exceptions.DatabaseException;
 import com.training.course.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UserService {
 
@@ -45,10 +47,13 @@ public class UserService {
 	}
 
 	public User update(Long id, User obj) {
-		User entity = repository.getReferenceById(id); // O findByid vai até o banco, ja o getReference, ele apenas prepara o objeto monitorado
-		updateData(entity, obj);
-		return repository.save(entity);
-
+		try {
+			User entity = repository.getReferenceById(id); // O findByid vai até o banco, ja o getReference, ele apenas prepara o objeto monitorado
+			updateData(entity, obj);
+			return repository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 
 	private void updateData(User entity, User obj) {
